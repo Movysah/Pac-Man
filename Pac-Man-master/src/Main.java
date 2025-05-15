@@ -7,12 +7,15 @@ public class Main {
 
 
         do {
+            long frameStart = System.currentTimeMillis();
+            frame.movePacMan();
+
             try {
-                Thread.sleep(10);
+                Thread.sleep(5-(frameStart-System.currentTimeMillis()));
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            frame.movePacMan();
+
         } while (true);
 
 
