@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -37,10 +36,10 @@ public class MapLoad {
 
 
         switch (data) {
-            case '0' : return TileState.Dot;
-            case '1' : return TileState.Wall;
+            case '0' : return TileState.DOT;
+            case '1' : return TileState.WALL;
             case '2' : return TileState.Empty;
-            case '3' : return TileState.PowerUp;
+            case '3' : return TileState.POWER_UP;
         }
         return TileState.Empty;
 

@@ -9,9 +9,10 @@ public class Main {
         do {
             long frameStart = System.currentTimeMillis();
             frame.movePacMan();
+            frame.moveGhosts();
 
             try {
-                Thread.sleep(5-(frameStart-System.currentTimeMillis()));
+                Thread.sleep(Math.max(0, 50 - (System.currentTimeMillis() - frameStart)));
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

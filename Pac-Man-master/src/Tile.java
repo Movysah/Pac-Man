@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
 
 public class Tile {
 
@@ -23,8 +21,8 @@ public class Tile {
     JLabel label = new JLabel();
 
     ImageIcon emptyIcon = new ImageIcon("Empty.png");
-    ImageIcon wallIcon = new ImageIcon("Wall.png");
-    ImageIcon dotIcon = new ImageIcon("Dot.png");
+    ImageIcon wallIcon = new ImageIcon("WALL.png");
+    ImageIcon dotIcon = new ImageIcon("DOT.png");
     ImageIcon powerUpIcon = new ImageIcon("PowerUp.png");
 
 
@@ -54,15 +52,15 @@ public class Tile {
                label.setIcon(emptyIcon);
                 // panel.setBackground(Color.black);
                 break;
-            case Dot:
+            case DOT:
                label.setIcon(dotIcon);
                 // panel.setBackground(Color.darkGray);
                 break;
-            case Wall:
+            case WALL:
                 label.setIcon(wallIcon);
                 // panel.setBackground(Color.blue);
                 break;
-            case PowerUp:
+            case POWER_UP:
                 label.setIcon(powerUpIcon);
                 // panel.setBackground(Color.orange);
                 break;
