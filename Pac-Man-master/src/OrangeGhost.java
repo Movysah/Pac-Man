@@ -7,7 +7,7 @@ public class OrangeGhost extends Ghost {
     public Point getChaseTarget(Tile[][] tiles, Point pacmanPos, int pacmanDir, Point blinkyPos) {
         int dist = Math.abs(getXloc() - pacmanPos.x) + Math.abs(getYloc() - pacmanPos.y);
         if (dist > 8) return pacmanPos;
-        return new Point(0, tiles[0].length - 1); // bottom-left
+        return new Point(1, 20); // bottom-left
     }
 
 }
