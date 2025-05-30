@@ -3,22 +3,24 @@ public class Main {
 
         Frame frame = new Frame();
 
-      frame.setpacManPosition(9, 15);
+        frame.setpacManPosition(9, 15);
+
+        for (int i = 0; i < 100000; i++) {
 
 
-        do {
+            //do {
             long frameStart = System.currentTimeMillis();
             frame.movePacMan();
             frame.moveGhosts();
 
             try {
-                Thread.sleep(Math.max(0, 50 - (System.currentTimeMillis() - frameStart)));
+                Thread.sleep(Math.max(0, 10 - (System.currentTimeMillis() - frameStart)));
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
-        } while (true);
+            // } while (true);
 
-
+        }
     }
 }

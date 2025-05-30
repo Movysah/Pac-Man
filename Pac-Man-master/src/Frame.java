@@ -29,8 +29,6 @@ public class Frame implements KeyListener {
     }
 
 
-
-
     public Frame() {
         MapLoad mapLoad = new MapLoad();
 
@@ -61,7 +59,6 @@ public class Frame implements KeyListener {
         mapPanel.setLayout(new GridLayout(21, 19));
 
 
-
         tiles = new Tile[19][21];
 
 
@@ -78,37 +75,40 @@ public class Frame implements KeyListener {
         }
         JLayeredPane layeredPane = new JLayeredPane();
 
-        layeredPane.add(mapPanel, JLayeredPane.DEFAULT_LAYER);
-        layeredPane.add(pacManPanel, JLayeredPane.PALETTE_LAYER);
+
         //layeredPane.add(ghostPanel, JLayeredPane.PALETTE_LAYER);
 
 
+        // In Frame.java, update the ghost instantiation in the constructor:
         String[] ghostImages = {"Orange.png", "Red.png", "Pink.png", "Blue.png"};
         int[][] ghostStarts = {{10, 9}, {9, 8}, {9, 9}, {8, 9}};
 
         for (int i = 0; i < 4; i++) {
-
-            ghosts[i] = new Ghost(ghostStarts[i][0], ghostStarts[i][1], Ghost.Type.values()[i]);
-            ghostPanels[i] = new JPanel();
-            ghostPanels[i].setOpaque(false);
-            if (i == 0) {
-                ghostPanels[i].setBorder(new LineBorder(Color.orange));
-            } else if (i == 1) {
-                ghostPanels[i].setBorder(new LineBorder(Color.red));
-            } else if (i == 2) {
-                ghostPanels[i].setBorder(new LineBorder(Color.pink));
-            } else if (i == 3) {
-                ghostPanels[i].setBorder(new LineBorder(Color.blue));
+            ghostPanels[i] = new JPanel(); // Initialize the panel
+            switch (i) {
+                case 0:
+                    ghosts[i] = new OrangeGhost(ghostStarts[i][0], ghostStarts[i][1]);
+                    break;
+                case 1:
+                    ghosts[i] = new RedGhost(ghostStarts[i][0], ghostStarts[i][1]);
+                    break;
+                case 2:
+                    ghosts[i] = new PinkGhost(ghostStarts[i][0], ghostStarts[i][1]);
+                    break;
+                case 3:
+                    ghosts[i] = new BlueGhost(ghostStarts[i][0], ghostStarts[i][1]);
+                    break;
             }
-            ghostPanels[i].setSize(40, 40);
-            ghostPanels[i].add(new JLabel(new ImageIcon(ghostImages[i])));
-            ghostPanels[i].setLocation(ghostStarts[i][0] * 40, ghostStarts[i][1] * 40);
-            ghostX[i] = ghosts[i].getXloc();
-            ghostY[i] = ghosts[i].getYloc();
-            ghostTargetX[i] = ghosts[i].getXloc();
-            ghostTargetY[i] = ghosts[i].getYloc();
+            ghostPanels[i].setBounds(ghostStarts[i][0] * 40, ghostStarts[i][1] * 40, 40, 40);
+            JLabel ghostLabel = new JLabel(new ImageIcon(ghostImages[i]));
+            ghostPanels[i].add(ghostLabel);
             layeredPane.add(ghostPanels[i], JLayeredPane.PALETTE_LAYER);
+            ghostX[i] = ghostStarts[i][0];
+            ghostY[i] = ghostStarts[i][1];
         }
+
+        layeredPane.add(mapPanel, JLayeredPane.DEFAULT_LAYER);
+        layeredPane.add(pacManPanel, JLayeredPane.PALETTE_LAYER);
 
         frame.setLayeredPane(layeredPane);
 
@@ -142,13 +142,33 @@ public class Frame implements KeyListener {
     }
 
 
+
     public void eat() {
-        if (tiles[pacMan.getXloc()][pacMan.getYloc()].getTileState().equals(TileState.DOT)
-                || (tiles[pacMan.getXloc()][pacMan.getYloc()].getTileState().equals(TileState.POWER_UP))) {
+        if (tiles[pacMan.getXloc()][pacMan.getYloc()].getTileState().equals(TileState.DOT)) {
             tiles[pacMan.getXloc()][pacMan.getYloc()].setTileState(TileState.Empty);
+        } else if (tiles[pacMan.getXloc()][pacMan.getYloc()].getTileState().equals(TileState.POWER_UP)) {
+            tiles[pacMan.getXloc()][pacMan.getYloc()].setTileState(TileState.Empty);
+
+            for (Ghost ghost : ghosts) {
+                ghost.setFrightened(true);
+            }
+
+            // Start a timer to reset frightened state after e.g. 7 seconds
+            new java.util.Timer().schedule(new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    for (Ghost ghost : ghosts) {
+                        ghost.setFrightened(false);
+                    }
+                }
+            }, 7000);
+
+
+            for (Ghost ghost : ghosts) {
+                ghost.setFrightened(true);
+            }
         }
     }
-
 
     public TileState getStateOnPosition(double xpos, double ypos) {
 
@@ -222,7 +242,7 @@ public class Frame implements KeyListener {
             case 3:
                 if (!getStateOnPosition(pacMan.getxPosition() - 0.1, pacMan.getyPosition()).equals(TileState.WALL)
                         && (!getStateOnPosition(pacMan.getxPosition() - 0.1, pacMan.getyPosition() + 0.9).equals(TileState.WALL
-                 ))) {
+                ))) {
                     setpacManPosition(pacMan.getxPosition() - 0.1, pacMan.getyPosition());
                     return;
                 }
@@ -233,15 +253,14 @@ public class Frame implements KeyListener {
     }
 
 
-
-
-
     private boolean canMove(double nx, double ny, double size) {
+
         // Check all four corners of the ghost's bounding box
-        return isValid((int)Math.floor(nx), (int)Math.floor(ny), tiles) &&
-                isValid((int)Math.floor(nx + size), (int)Math.floor(ny), tiles) &&
-                isValid((int)Math.floor(nx), (int)Math.floor(ny + size), tiles) &&
-                isValid((int)Math.floor(nx + size), (int)Math.floor(ny + size), tiles);
+        return isValid((int) Math.floor(nx), (int) Math.floor(ny), tiles) &&
+                isValid((int) Math.floor(nx + size), (int) Math.floor(ny), tiles) &&
+                isValid((int) Math.floor(nx), (int) Math.floor(ny + size), tiles) &&
+                isValid((int) Math.floor(nx + size), (int) Math.floor(ny + size), tiles);
+
     }
 
 
@@ -278,7 +297,6 @@ public class Frame implements KeyListener {
     }
 
 
-
     private List<Point> reconstructPath(Map<Point, Point> parentMap, Point target) {
         List<Point> path = new ArrayList<>();
         Point current = target;
@@ -294,90 +312,81 @@ public class Frame implements KeyListener {
     private int[] ghostDirY = new int[4];
 
     private Point chaseTarget(int ghostIndex) {
-        int pacX = pacMan.getXloc();
-        int pacY = pacMan.getYloc();
-        switch (ghosts[ghostIndex].getType()) {
-            case RED: // Blinky: directly chase Pac-Man
-                return new Point(pacX, pacY);
-            case PINK: // Pinky: 4 tiles ahead of Pac-Man
-                int dx = 0, dy = 0;
-                switch (pacMan.getDirection()) {
-                    case 0: dy = -4; break; // up
-                    case 1: dx = 4; break;  // right
-                    case 2: dy = 4; break;  // down
-                    case 3: dx = -4; break; // left
-                }
-                return new Point(pacX + dx, pacY + dy);
-            case BLUE: // Inky: 2 tiles ahead of Pac-Man (simple version)
-                dx = 0; dy = 0;
-                switch (pacMan.getDirection()) {
-                    case 0: dy = -2; break;
-                    case 1: dx = 2; break;
-                    case 2: dy = 2; break;
-                    case 3: dx = -2; break;
-                }
-                return new Point(pacX + dx, pacY + dy);
-            case ORANGE: // Clyde: chase if far, else scatter to bottom left
-                double dist = Math.hypot(ghostX[ghostIndex] - pacX, ghostY[ghostIndex] - pacY);
-                if (dist > 8) {
-                    return new Point(pacX, pacY);
-                } else {
-                    return new Point(0, 20); // bottom left corner
-                }
-            default:
-                return new Point(pacX, pacY);
-        }
+        Ghost ghost = ghosts[ghostIndex];
+        Point pacmanPos = new Point(pacMan.getXloc(), pacMan.getYloc());
+        int pacmanDir = pacMan.getDirection();
+        // Blinky (RedGhost) is at index 1
+        Point blinkyPos = new Point(ghosts[1].getXloc(), ghosts[1].getYloc());
+        // Each ghost subclass handles the logic internally
+        return ghost.getChaseTarget(tiles, pacmanPos, pacmanDir, blinkyPos);
     }
 
     public void moveGhosts() {
-        double ghostSpeed = 0.05;
-        double size = 0.95;
+        double ghostSpeed = 0.1;
 
         for (int i = 0; i < ghosts.length; i++) {
             int ghostXInt = (int) Math.round(ghostX[i]);
             int ghostYInt = (int) Math.round(ghostY[i]);
-            Point target = chaseTarget(i);
+            Point pacmanPos = new Point(pacMan.getXloc(), pacMan.getYloc());
+            int pacmanDir = pacMan.getDirection();
+            Point blinkyPos = new Point(ghosts[1].getXloc(), ghosts[1].getYloc());
 
             boolean atCenter = Math.abs(ghostX[i] - ghostXInt) < 0.05 && Math.abs(ghostY[i] - ghostYInt) < 0.05;
 
             if (atCenter) {
-                List<Point> path = findPath(ghostXInt, ghostYInt, target.x, target.y);
-                if (path != null && path.size() > 1) {
-                    Point nextStep = path.get(1);
-                    ghostDirX[i] = nextStep.x - ghostXInt;
-                    ghostDirY[i] = nextStep.y - ghostYInt;
+                Point nextStep = ghosts[i].getNextMove(tiles, pacmanPos, pacmanDir, blinkyPos);
+                int dx = nextStep.x - ghostXInt;
+                int dy = nextStep.y - ghostYInt;
+
+                // If nextStep is the same as current, pick a random valid direction
+                if (dx == 0 && dy == 0) {
+                    List<int[]> shuffledDirs = new ArrayList<>(Arrays.asList(directions));
+                    Collections.shuffle(shuffledDirs);
+                    for (int[] dir : shuffledDirs) {
+                        int nx = ghostXInt + dir[0];
+                        int ny = ghostYInt + dir[1];
+                        if (isValid(nx, ny, tiles)) {
+                            dx = dir[0];
+                            dy = dir[1];
+                            break;
+                        }
+                    }
                 }
+                ghostDirX[i] = dx;
+                ghostDirY[i] = dy;
             }
 
-            double nextX = ghostX[i] + ghostDirX[i] * ghostSpeed;
-            double nextY = ghostY[i] + ghostDirY[i] * ghostSpeed;
-
-            if (canMove(nextX, nextY, size)) {
-                ghostX[i] = nextX;
-                ghostY[i] = nextY;
-                ghosts[i].setPosition((int) Math.round(nextX), (int) Math.round(nextY));
-                ghostPanels[i].setLocation((int) (nextX * 40), (int) (nextY * 40));
+            // Check if the next tile in the intended direction is not a wall
+            int nextTileX = (int) Math.floor(ghostX[i] + ghostDirX[i]);
+            int nextTileY = (int) Math.floor(ghostY[i] + ghostDirY[i]);
+            if (isValid(nextTileX, nextTileY, tiles)) {
+                ghostX[i] += ghostDirX[i] * ghostSpeed;
+                ghostY[i] += ghostDirY[i] * ghostSpeed;
             } else {
-                // Try all directions except reverse
-                for (int[] dir : directions) {
+                // Try to pick a new direction (not reverse)
+                List<int[]> shuffledDirs = new ArrayList<>(Arrays.asList(directions));
+                Collections.shuffle(shuffledDirs);
+                for (int[] dir : shuffledDirs) {
                     if (dir[0] == -ghostDirX[i] && dir[1] == -ghostDirY[i]) continue;
-                    double tryX = ghostX[i] + dir[0] * ghostSpeed;
-                    double tryY = ghostY[i] + dir[1] * ghostSpeed;
-                    if (canMove(tryX, tryY, size)) {
+                    int nx = (int) Math.floor(ghostX[i] + dir[0]);
+                    int ny = (int) Math.floor(ghostY[i] + dir[1]);
+                    if (isValid(nx, ny, tiles)) {
                         ghostDirX[i] = dir[0];
                         ghostDirY[i] = dir[1];
-                        ghostX[i] = tryX;
-                        ghostY[i] = tryY;
-                        ghosts[i].setPosition((int) Math.round(tryX), (int) Math.round(tryY));
-                        ghostPanels[i].setLocation((int) (tryX * 40), (int) (tryY * 40));
+                        ghostX[i] += ghostDirX[i] * ghostSpeed;
+                        ghostY[i] += ghostDirY[i] * ghostSpeed;
                         break;
                     }
                 }
             }
+
+            // Snap to grid to avoid floating-point drift
+            ghostX[i] = Math.round(ghostX[i] * 100.0) / 100.0;
+            ghostY[i] = Math.round(ghostY[i] * 100.0) / 100.0;
+            ghosts[i].setPosition((int) Math.round(ghostX[i]), (int) Math.round(ghostY[i]));
+            ghostPanels[i].setLocation((int) (ghostX[i] * 40), (int) (ghostY[i] * 40));
         }
     }
-
-
 
 
 

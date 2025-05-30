@@ -3,17 +3,7 @@ public class PacMan {
     private short reqDirection = 1;
     private double xPosition = 9, yPosition = 15;
 
-    public enum Type {ORANGE, RED, PINK, BLUE}
 
-    private Type type;
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
 
 
 
