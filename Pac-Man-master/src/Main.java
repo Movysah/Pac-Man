@@ -14,7 +14,7 @@ public class Main {
             frame.moveGhosts();
 
             try {
-                Thread.sleep(Math.max(0, 10 - (System.currentTimeMillis() - frameStart)));
+                Thread.sleep(Math.max(0, 100 - (System.currentTimeMillis() - frameStart)));
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

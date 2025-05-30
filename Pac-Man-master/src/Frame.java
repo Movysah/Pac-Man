@@ -331,8 +331,9 @@ public class Frame implements KeyListener {
             int pacmanDir = pacMan.getDirection();
             Point blinkyPos = new Point(ghosts[1].getXloc(), ghosts[1].getYloc());
 
-            boolean atCenter = Math.abs(ghostX[i] - ghostXInt) < 0.05 && Math.abs(ghostY[i] - ghostYInt) < 0.05;
+            boolean atCenter = Math.abs(ghostX[i] - ghostXInt) < 0.01 && Math.abs(ghostY[i] - ghostYInt) < 0.01;
 
+            // 1. Update direction if at center
             if (atCenter) {
                 Point nextStep = ghosts[i].getNextMove(tiles, pacmanPos, pacmanDir, blinkyPos);
                 int dx = nextStep.x - ghostXInt;
@@ -356,33 +357,21 @@ public class Frame implements KeyListener {
                 ghostDirY[i] = dy;
             }
 
-            // Check if the next tile in the intended direction is not a wall
-            int nextTileX = (int) Math.floor(ghostX[i] + ghostDirX[i]);
-            int nextTileY = (int) Math.floor(ghostY[i] + ghostDirY[i]);
+            // 2. Try to move in the current direction
+            double nextX = ghostX[i] + ghostDirX[i] * ghostSpeed;
+            double nextY = ghostY[i] + ghostDirY[i] * ghostSpeed;
+            int nextTileX = (int) Math.floor(nextX + 0.00 * ghostDirX[i]);
+            int nextTileY = (int) Math.floor(nextY + 0.00 * ghostDirY[i]);
+
             if (isValid(nextTileX, nextTileY, tiles)) {
-                ghostX[i] += ghostDirX[i] * ghostSpeed;
-                ghostY[i] += ghostDirY[i] * ghostSpeed;
-            } else {
-                // Try to pick a new direction (not reverse)
-                List<int[]> shuffledDirs = new ArrayList<>(Arrays.asList(directions));
-                Collections.shuffle(shuffledDirs);
-                for (int[] dir : shuffledDirs) {
-                    if (dir[0] == -ghostDirX[i] && dir[1] == -ghostDirY[i]) continue;
-                    int nx = (int) Math.floor(ghostX[i] + dir[0]);
-                    int ny = (int) Math.floor(ghostY[i] + dir[1]);
-                    if (isValid(nx, ny, tiles)) {
-                        ghostDirX[i] = dir[0];
-                        ghostDirY[i] = dir[1];
-                        ghostX[i] += ghostDirX[i] * ghostSpeed;
-                        ghostY[i] += ghostDirY[i] * ghostSpeed;
-                        break;
-                    }
-                }
+                ghostX[i] = nextX;
+                ghostY[i] = nextY;
             }
 
             // Snap to grid to avoid floating-point drift
-            ghostX[i] = Math.round(ghostX[i] * 100.0) / 100.0;
-            ghostY[i] = Math.round(ghostY[i] * 100.0) / 100.0;
+            ghostX[i] = Math.round(ghostX[i] * 1000.0) / 1000.0;
+            ghostY[i] = Math.round(ghostY[i] * 1000.0) / 1000.0;
+
             ghosts[i].setPosition((int) Math.round(ghostX[i]), (int) Math.round(ghostY[i]));
             ghostPanels[i].setLocation((int) (ghostX[i] * 40), (int) (ghostY[i] * 40));
         }
