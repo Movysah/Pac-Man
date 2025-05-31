@@ -50,19 +50,18 @@ public class Tile {
         switch (tileState) {
             case Empty:
                label.setIcon(emptyIcon);
-                // panel.setBackground(Color.black);
+
                 break;
             case DOT:
                label.setIcon(dotIcon);
-                // panel.setBackground(Color.darkGray);
+
                 break;
             case WALL:
                 label.setIcon(wallIcon);
-                // panel.setBackground(Color.blue);
+
                 break;
             case POWER_UP:
                 label.setIcon(powerUpIcon);
-                // panel.setBackground(Color.orange);
                 break;
         }
 

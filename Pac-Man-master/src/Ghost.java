@@ -19,16 +19,17 @@ public abstract class Ghost {
     public boolean isFrightened() { return frightened; }
     protected IntPoint prevPosition = null;
 
-    // Abstract: each ghost implements its own targeting logic
+
     public abstract Point getChaseTarget(Tile[][] tiles, Point pacmanPos, int pacmanDir, Point blinkyPos);
 
-    // Shared BFS logic
+
     public Point getNextMove(Tile[][] tiles, Point pacmanPos, int pacmanDir, Point blinkyPos) {
         Point target = getChaseTarget(tiles, pacmanPos, pacmanDir, blinkyPos);
+        System.out.println("Target for " + this.getClass().getSimpleName() + ": " + target);
         IntPoint start = new IntPoint(getXloc(), getYloc());
         IntPoint intTarget = new IntPoint(target.x, target.y);
         IntPoint nextStep = bfsNextStep(tiles, start, intTarget, prevPosition);
-        prevPosition = start; // Update previous position for next move
+        prevPosition = start;
         return new Point(nextStep.x, nextStep.y);
     }
 
@@ -65,8 +66,6 @@ public abstract class Ghost {
                     queue.add(next);
                 }
             }
-        //    System.out.println("BFS Start: " + start + ", Target: " + target);
-         //   System.out.println("Visited: " + visited);
 
 
         }

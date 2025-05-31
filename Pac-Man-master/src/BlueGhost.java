@@ -22,7 +22,7 @@ public class BlueGhost extends Ghost {
         tx = Math.max(0, Math.min(tx, maxX));
         ty = Math.max(0, Math.min(ty, maxY));
 
-        // If clamped tile is a wall, find the closest non-wall tile
+
         if (!isValid(tx, ty, tiles)) {
             double minDist = Double.MAX_VALUE;
             Point best = new Point(blinkyPos.x, blinkyPos.y);
