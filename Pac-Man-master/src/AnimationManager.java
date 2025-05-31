@@ -18,8 +18,8 @@ public class AnimationManager {
     public AnimationManager(Frame frame, JLabel pacManLabel) throws IOException {
         this.frame = frame;
         this.pacManLabel = pacManLabel;
-        pacmanBase = javax.imageio.ImageIO.read(new File("Pac-Man.png"));
-        pacmanClosedBase = javax.imageio.ImageIO.read(new File("Pac-Man_Closed.png"));
+        pacmanBase = javax.imageio.ImageIO.read(new File("out/production/PacManZaverecka/Pac-Man.png"));
+        pacmanClosedBase = javax.imageio.ImageIO.read(new File("out/production/PacManZaverecka/Pac-Man_Closed.png"));
     }
 
     /**

@@ -21,7 +21,7 @@ public class MapLoad {
     public ArrayList<String> getfiletext() {
         ArrayList<String> ret = new ArrayList<>();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("MapFile.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("out/production/PacManZaverecka/MapFile.txt"));
             String text;
             while ((text = reader.readLine()) != null) {
                 ret.add(text);

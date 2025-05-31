@@ -14,10 +14,10 @@ public class Tile {
     TileState tileState;
     JLabel label = new JLabel();
 
-    ImageIcon emptyIcon = new ImageIcon("Empty.png");
-    ImageIcon wallIcon = new ImageIcon("WALL.png");
-    ImageIcon dotIcon = new ImageIcon("DOT.png");
-    ImageIcon powerUpIcon = new ImageIcon("PowerUp.png");
+    ImageIcon emptyIcon = new ImageIcon("out/production/PacManZaverecka/Empty.png");
+    ImageIcon wallIcon = new ImageIcon("out/production/PacManZaverecka/WALL.png");
+    ImageIcon dotIcon = new ImageIcon("out/production/PacManZaverecka/DOT.png");
+    ImageIcon powerUpIcon = new ImageIcon("out/production/PacManZaverecka/PowerUp.png");
 
 
     /**

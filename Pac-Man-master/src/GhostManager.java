@@ -8,7 +8,7 @@ public class GhostManager {
     private int[] ghostDirX = new int[4], ghostDirY = new int[4];
     private long[] frightenedEndTime = new long[4];
     private boolean[] blinking = new boolean[4];
-    private final String[] ghostImages = {"Orange.png", "Red.png", "Pink.png", "Blue.png"};
+    private final String[] ghostImages = {"out/production/PacManZaverecka/Orange.png", "out/production/PacManZaverecka/Red.png", "out/production/PacManZaverecka/Pink.png", "out/production/PacManZaverecka/Blue.png"};
     private final Point[] ghostCorners = {
             new Point(0, 0), new Point(18, 0), new Point(0, 20), new Point(18, 20)
     };
@@ -114,9 +114,9 @@ public class GhostManager {
             JLabel ghostLabel = (JLabel) ghostPanels[i].getComponent(0);
             if (ghosts[i].isFrightened()) {
                 if (blinking[i] && (System.currentTimeMillis() / 200) % 2 == 0) {
-                    ghostLabel.setIcon(new ImageIcon("frightened_blink.png"));
+                    ghostLabel.setIcon(new ImageIcon(ghostImages[i]));
                 } else {
-                    ghostLabel.setIcon(new ImageIcon("frightened.png"));
+                    ghostLabel.setIcon(new ImageIcon("out/production/PacManZaverecka/frightened.png"));
                 }
             } else {
                 ghostLabel.setIcon(new ImageIcon(ghostImages[i]));
