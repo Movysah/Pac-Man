@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class AnimationManager {
     private Frame frame;
@@ -18,8 +19,8 @@ public class AnimationManager {
     public AnimationManager(Frame frame, JLabel pacManLabel) throws IOException {
         this.frame = frame;
         this.pacManLabel = pacManLabel;
-        pacmanBase = javax.imageio.ImageIO.read(new File("out/production/PacManZaverecka/Pac-Man.png"));
-        pacmanClosedBase = javax.imageio.ImageIO.read(new File("out/production/PacManZaverecka/Pac-Man_Closed.png"));
+        pacmanBase = javax.imageio.ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Pac-Man.png")));
+        pacmanClosedBase = javax.imageio.ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Pac-Man_Closed.png")));
     }
 
     /**

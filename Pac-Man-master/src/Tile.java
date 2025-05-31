@@ -1,8 +1,11 @@
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Tile {
 
-    public Tile(JPanel panel) {
+    public Tile(JPanel panel) throws IOException {
         this.panel = panel;
 
         panel.setSize(40, 40);
@@ -14,10 +17,12 @@ public class Tile {
     TileState tileState;
     JLabel label = new JLabel();
 
-    ImageIcon emptyIcon = new ImageIcon("out/production/PacManZaverecka/Empty.png");
-    ImageIcon wallIcon = new ImageIcon("out/production/PacManZaverecka/WALL.png");
-    ImageIcon dotIcon = new ImageIcon("out/production/PacManZaverecka/DOT.png");
-    ImageIcon powerUpIcon = new ImageIcon("out/production/PacManZaverecka/PowerUp.png");
+
+
+    ImageIcon emptyIcon = new ImageIcon(javax.imageio.ImageIO.read(getClass().getResourceAsStream("/Empty.png")));
+    ImageIcon wallIcon = new ImageIcon(javax.imageio.ImageIO.read(getClass().getResourceAsStream("/Wall.png")));
+    ImageIcon dotIcon = new ImageIcon(javax.imageio.ImageIO.read(getClass().getResourceAsStream("/Dot.png")));
+    ImageIcon powerUpIcon = new ImageIcon(javax.imageio.ImageIO.read(getClass().getResourceAsStream("/PowerUp.png")));
 
 
     /**

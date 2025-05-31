@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class GhostManager {
     private Ghost[] ghosts = new Ghost[4];
@@ -8,7 +9,7 @@ public class GhostManager {
     private int[] ghostDirX = new int[4], ghostDirY = new int[4];
     private long[] frightenedEndTime = new long[4];
     private boolean[] blinking = new boolean[4];
-    private final String[] ghostImages = {"out/production/PacManZaverecka/Orange.png", "out/production/PacManZaverecka/Red.png", "out/production/PacManZaverecka/Pink.png", "out/production/PacManZaverecka/Blue.png"};
+    private final String[] ghostImages = {"/Orange.png", "/Red.png", "/Pink.png", "/Blue.png"};
     private final Point[] ghostCorners = {
             new Point(0, 0), new Point(18, 0), new Point(0, 20), new Point(18, 20)
     };
@@ -42,8 +43,14 @@ public class GhostManager {
             ghostPanels[i] = new JPanel();
             ghostPanels[i].setOpaque(false);
             ghostPanels[i].setBounds(ghostStarts[i][0] * 40, ghostStarts[i][1] * 40, 40, 40);
-            JLabel ghostLabel = new JLabel(new ImageIcon(ghostImages[i]));
-            ghostPanels[i].add(ghostLabel);
+            JLabel ghostLabel;
+            try {
+                ghostLabel = new JLabel(new ImageIcon(javax.imageio.ImageIO.read(getClass().getResourceAsStream(ghostImages[i]))));
+            } catch (java.io.IOException e) {
+                ghostLabel = new JLabel(); // fallback if image fails to load
+                e.printStackTrace();
+            }
+            ghostPanels[i].add(ghostLabel);            ghostPanels[i].add(ghostLabel);
             ghostX[i] = ghostStarts[i][0];
             ghostY[i] = ghostStarts[i][1];
             frame.frame.getLayeredPane().add(ghostPanels[i], JLayeredPane.PALETTE_LAYER);
@@ -114,12 +121,30 @@ public class GhostManager {
             JLabel ghostLabel = (JLabel) ghostPanels[i].getComponent(0);
             if (ghosts[i].isFrightened()) {
                 if (blinking[i] && (System.currentTimeMillis() / 200) % 2 == 0) {
-                    ghostLabel.setIcon(new ImageIcon(ghostImages[i]));
+                    try {
+                        if (blinking[i] && (System.currentTimeMillis() / 200) % 2 == 0) {
+                            ghostLabel.setIcon(new ImageIcon(javax.imageio.ImageIO.read(getClass().getResourceAsStream(ghostImages[i]))));
+                        } else {
+                            ghostLabel.setIcon(new ImageIcon(javax.imageio.ImageIO.read(getClass().getResourceAsStream("/frightened.png"))));
+                        }
+                    } catch (java.io.IOException e) {
+                        e.printStackTrace();
+                    }
                 } else {
-                    ghostLabel.setIcon(new ImageIcon("out/production/PacManZaverecka/frightened.png"));
+
+                    try {
+                        ghostLabel.setIcon(new ImageIcon(javax.imageio.ImageIO.read(getClass().getResourceAsStream("/frightened.png"))));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
                 }
             } else {
-                ghostLabel.setIcon(new ImageIcon(ghostImages[i]));
+                try {
+                        ghostLabel.setIcon(new ImageIcon(javax.imageio.ImageIO.read(getClass().getResourceAsStream(ghostImages[i]))));
+                } catch (java.io.IOException e) {
+                    e.printStackTrace();
+                }
             }
             double dist = Math.hypot(ghostX[i] - pacMan.getxPosition(), ghostY[i] - pacMan.getyPosition());
             if (ghosts[i].isFrightened() && dist < 0.9) {

@@ -14,4 +14,5 @@ public class GameConstants {
     public static final int POWER_UP_SCORE = 50;
     public static final int PACMAN_START_X = 9;
     public static final int PACMAN_START_Y = 15;
+
 }
