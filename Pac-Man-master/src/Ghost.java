@@ -79,11 +79,6 @@ public abstract class Ghost {
                 && tiles[x][y].getTileState() != TileState.WALL;
     }
 
-    private boolean isValid(Point p, Tile[][] tiles) {
-        int x = p.x, y = p.y;
-        return x >= 0 && x < tiles.length && y >= 0 && y < tiles[0].length
-                && tiles[x][y].getTileState() != TileState.WALL;
-    }
 
 
 
