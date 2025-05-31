@@ -14,6 +14,10 @@ public class MapLoad {
     ArrayList<String> filetext=new ArrayList<>();
 
 
+    /**
+     * Reads the text file with map.
+     */
+
     public ArrayList<String> getfiletext() {
         ArrayList<String> ret = new ArrayList<>();
         try {
@@ -28,6 +32,10 @@ public class MapLoad {
         }
         return ret;
     }
+
+    /**
+     *loads the map from the text file and returns the state of the tile at the given coordinates.
+     */
 
     public TileState steteOfTile (int x, int y) {
 

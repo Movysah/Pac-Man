@@ -7,12 +7,6 @@ public class Tile {
 
         panel.setSize(40, 40);
         panel.setLayout(null);
-
-
-
-
-
-
     }
 
 
@@ -26,8 +20,9 @@ public class Tile {
     ImageIcon powerUpIcon = new ImageIcon("PowerUp.png");
 
 
-
-
+    /**
+     * Sets the tile state and updates the label accordingly.
+     */
     public void setTileState(TileState tileState) {
         this.tileState = tileState;
         panel.add(label);
@@ -40,12 +35,17 @@ public class Tile {
 
     }
 
+    /**
+     * Returns the current tile state.
+     */
     public TileState getTileState() {
         updateToState();
         return tileState;
     }
 
-
+    /**
+     * Updates the label icon based on the current tile state.
+     */
     public void updateToState() {
         switch (tileState) {
             case Empty:

@@ -13,6 +13,11 @@ public class UIManager {
     private int score;
     private JLabel message;
 
+    /**
+     * UIManager is responsible for managing the user interface components of the game.
+     * It displays the score, lives, controls, and handles game over dialogs.
+     */
+
     public UIManager(Frame frame, ScoreManager scoreManager, LivesManager livesManager) {
         this.frame = frame;
         this.scoreManager = scoreManager;
@@ -57,29 +62,42 @@ public class UIManager {
         dialog.setVisible(false);
     }
 
-
+    /**
+     * Displays the game over dialog with the final score.
+     */
     public void showGameOverDialog(int score) {
         message = new JLabel("<html><center><h1>Game Over!</h1><br>Your Score: " + scoreManager.getScore() + "</center></html>", SwingConstants.CENTER);
         dialog.add(message, BorderLayout.CENTER);
         dialog.setVisible(true);
     }
 
-
+    /**
+     * Adds the UI components to the specified layered pane.
+     */
     public void addUIComponents(JLayeredPane layeredPane) {
         layeredPane.add(scoreLabel, JLayeredPane.MODAL_LAYER);
         layeredPane.add(livesLabel, JLayeredPane.MODAL_LAYER);
         layeredPane.add(controlsLabel, JLayeredPane.MODAL_LAYER);
     }
 
+    /**
+     * Updates the score label with the current score.
+     */
     public void updateScoreLabel() {
         score = scoreManager.getScore();
         scoreLabel.setText("Score: " + score);
     }
 
+    /**
+     * Updates the lives label with the current number of lives.
+     */
     public void updateLivesLabel() {
         livesLabel.setText(livesManager.getLivesText());
     }
 
+    /**
+     * Displays a dialog when the level is complete.
+     */
     public void showLevelCompleteDialog(int score) {
         JOptionPane.showMessageDialog(frame.frame, "Level Complete!\nScore: " + score);
     }

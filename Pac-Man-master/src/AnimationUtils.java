@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Class for animation-related operations, such as rotating images.
+ */
 public class AnimationUtils {
     public static BufferedImage rotateImage(BufferedImage img, double angle) {
         int w = img.getWidth();

@@ -4,6 +4,9 @@ import java.awt.*;
 public class BlueGhost extends Ghost {
     public BlueGhost(double x, double y) { super(x, y); }
 
+    /**
+     * Returns the target position for the blue ghost (Inky) in chase mode.
+     */
     @Override
     public Point getChaseTarget(Tile[][] tiles, Point pacmanPos, int pacmanDir, Point blinkyPos) {
         int[] dx = {0, 1, 0, -1};
@@ -43,7 +46,9 @@ public class BlueGhost extends Ghost {
         return new Point(tx, ty);
     }
 
-    // Helper to check if a tile is valid (not a wall)
+    /**
+     * Returns the target position for the blue ghost (Inky) in scatter mode.
+     */
     private boolean isValid(int x, int y, Tile[][] tiles) {
         return x >= 0 && y >= 0 && x < tiles.length && y < tiles[0].length && !tiles[x][y].getTileState().equals(TileState.WALL);
     }

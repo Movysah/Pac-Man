@@ -3,7 +3,6 @@ import java.util.*;
 
 public abstract class Ghost {
     protected double x, y;
-    protected int direction;
     protected boolean frightened = false;
 
     public Ghost(double x, double y) {
@@ -14,7 +13,6 @@ public abstract class Ghost {
     public int getXloc() { return (int) x; }
     public int getYloc() { return (int) y; }
     public void setPosition(double x, double y) { this.x = x; this.y = y; }
-    public int getDirection() { return direction; }
     public void setFrightened(boolean frightened) { this.frightened = frightened; }
     public boolean isFrightened() { return frightened; }
     protected IntPoint prevPosition = null;
@@ -22,7 +20,9 @@ public abstract class Ghost {
 
     public abstract Point getChaseTarget(Tile[][] tiles, Point pacmanPos, int pacmanDir, Point blinkyPos);
 
-
+    /**
+     * Returns the next move for the ghost.
+     */
     public Point getNextMove(Tile[][] tiles, Point pacmanPos, int pacmanDir, Point blinkyPos) {
         Point target = getChaseTarget(tiles, pacmanPos, pacmanDir, blinkyPos);
         System.out.println("Target for " + this.getClass().getSimpleName() + ": " + target);
@@ -34,10 +34,9 @@ public abstract class Ghost {
     }
 
 
-    // Chasing pattern logic
-
-
-    // BFS for next step
+    /**
+     * Performs a BFS to find the next step towards the target.
+     */
     private IntPoint bfsNextStep(Tile[][] tiles, IntPoint start, IntPoint target, IntPoint prev) {
         Queue<IntPoint> queue = new LinkedList<>();
         Set<IntPoint> visited = new HashSet<>();
@@ -71,7 +70,9 @@ public abstract class Ghost {
         }
         return start;
     }
-
+    /**
+     * Checks if a point is valid (within bounds and not a wall).
+     */
     private boolean isValid(IntPoint p, Tile[][] tiles) {
         int x = p.x, y = p.y;
         return x >= 0 && x < tiles.length && y >= 0 && y < tiles[0].length

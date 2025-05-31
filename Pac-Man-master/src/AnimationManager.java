@@ -12,6 +12,9 @@ public class AnimationManager {
     private int pacmanMouthFrame = 0;
     private final int PACMAN_MOUTH_ANIM_RATE = 3;
 
+    /**
+     * Constructs an AnimationManager for Pac-Man animations.
+     */
     public AnimationManager(Frame frame, JLabel pacManLabel) throws IOException {
         this.frame = frame;
         this.pacManLabel = pacManLabel;
@@ -19,6 +22,9 @@ public class AnimationManager {
         pacmanClosedBase = javax.imageio.ImageIO.read(new File("Pac-Man_Closed.png"));
     }
 
+    /**
+     * Animation for Pac-Man's mouth opening and closing based on the direction of movement.
+     */
     public void animatePacManMouth(int direction) {
         pacmanMouthFrame++;
         if (pacmanMouthFrame >= PACMAN_MOUTH_ANIM_RATE) {

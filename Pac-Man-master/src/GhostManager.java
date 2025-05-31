@@ -16,6 +16,9 @@ public class GhostManager {
     private PacMan pacMan;
     private Frame frame;
 
+    /**
+     * Constructs a GhostManager to manage the ghosts in the game.
+     */
     public GhostManager(Frame frame, Tile[][] tiles, PacMan pacMan, JLayeredPane layeredPane) {
         this.frame = frame;
         this.tiles = tiles;
@@ -23,10 +26,18 @@ public class GhostManager {
         int[][] ghostStarts = {{10, 9}, {9, 8}, {9, 9}, {8, 9}};
         for (int i = 0; i < 4; i++) {
             switch (i) {
-                case 0: ghosts[i] = new OrangeGhost(ghostStarts[i][0], ghostStarts[i][1]); break;
-                case 1: ghosts[i] = new RedGhost(ghostStarts[i][0], ghostStarts[i][1]); break;
-                case 2: ghosts[i] = new PinkGhost(ghostStarts[i][0], ghostStarts[i][1]); break;
-                case 3: ghosts[i] = new BlueGhost(ghostStarts[i][0], ghostStarts[i][1]); break;
+                case 0:
+                    ghosts[i] = new OrangeGhost(ghostStarts[i][0], ghostStarts[i][1]);
+                    break;
+                case 1:
+                    ghosts[i] = new RedGhost(ghostStarts[i][0], ghostStarts[i][1]);
+                    break;
+                case 2:
+                    ghosts[i] = new PinkGhost(ghostStarts[i][0], ghostStarts[i][1]);
+                    break;
+                case 3:
+                    ghosts[i] = new BlueGhost(ghostStarts[i][0], ghostStarts[i][1]);
+                    break;
             }
             ghostPanels[i] = new JPanel();
             ghostPanels[i].setOpaque(false);
@@ -40,6 +51,9 @@ public class GhostManager {
         }
     }
 
+    /**
+     * Moves all ghosts based on their current state and position.
+     */
     public void moveGhosts() {
         double ghostSpeed = 0.083333333333333333;
         for (int i = 0; i < ghosts.length; i++) {
@@ -76,8 +90,12 @@ public class GhostManager {
                     nextStep = ghosts[i].getNextMove(tiles, pacmanPos, pacmanDir, blinkyPos);
                 }
                 int dx = nextStep.x - ghostXInt, dy = nextStep.y - ghostYInt;
-                if (Math.abs(dx) > 1 || Math.abs(dy) > 1) { dx = 0; dy = 0; }
-                ghostDirX[i] = dx; ghostDirY[i] = dy;
+                if (Math.abs(dx) > 1 || Math.abs(dy) > 1) {
+                    dx = 0;
+                    dy = 0;
+                }
+                ghostDirX[i] = dx;
+                ghostDirY[i] = dy;
             }
             double nextX = ghostX[i] + ghostDirX[i] * ghostSpeed;
             double nextY = ghostY[i] + ghostDirY[i] * ghostSpeed;
@@ -126,6 +144,9 @@ public class GhostManager {
         }
     }
 
+    /**
+     * Frightens all ghosts for 10 seconds.
+     */
     public void frightenGhosts() {
         for (int i = 0; i < ghosts.length; i++) {
             ghosts[i].setFrightened(true);
@@ -134,6 +155,9 @@ public class GhostManager {
         }
     }
 
+    /**
+     * Resets the position and state of a specific ghost.
+     */
     private void resetGhost(int i) {
         int[][] ghostStarts = {{10, 9}, {9, 8}, {9, 9}, {8, 9}};
         ghostX[i] = ghostStarts[i][0];
@@ -144,6 +168,9 @@ public class GhostManager {
         ghostPanels[i].setLocation((int) (ghostX[i] * 40), (int) (ghostY[i] * 40));
     }
 
+    /**
+     * Resets all ghosts to their starting positions and states.
+     */
     protected void resetAll() {
         int[][] ghostStarts = {{10, 9}, {9, 8}, {9, 9}, {8, 9}};
         pacMan.setxPosition(9);
@@ -159,10 +186,17 @@ public class GhostManager {
         }
     }
 
+    /**
+     * Checks if the given coordinates are valid (not a wall).
+     */
     private boolean isValid(int x, int y) {
         return x >= 0 && x < tiles.length && y >= 0 && y < tiles[0].length && tiles[x][y].getTileState() != TileState.WALL;
     }
 
+
+    /**
+     * Returns the array of ghosts managed by this GhostManager.
+     */
     public Ghost[] getGhosts() {
         return ghosts;
     }

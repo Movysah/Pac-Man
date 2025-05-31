@@ -1,3 +1,6 @@
+/**
+ * GameConstants holds all the constant values used in the game.
+ */
 public class GameConstants {
     public static final int COLS = 19;
     public static final int ROWS = 21;

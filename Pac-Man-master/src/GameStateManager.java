@@ -1,5 +1,10 @@
+/**
+ * Manages the current state of the game.
+ */
 public class GameStateManager {
+
     private GameState state = GameState.RUNNING;
+
 
     public void setState(GameState state) {
         this.state = state;

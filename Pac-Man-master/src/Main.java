@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 
 public class Main {
     private static volatile boolean paused = false;
@@ -15,8 +14,9 @@ public class Main {
         }
 
         frame.setPacManPosition(9, 15);
-
-        // Add key listener for pause/resume
+        /**
+        * Adds key listener for pause/resume
+         */
         frame.frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -25,6 +25,10 @@ public class Main {
                 }
             }
         });
+
+        /**
+         * Handles the game updates each frame
+         */
 
         do {
             long frameStart = System.currentTimeMillis();

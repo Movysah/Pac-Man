@@ -1,12 +1,15 @@
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import java.awt.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Assertions;
+import java.awt.Point;
 import java.io.IOException;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameTest {
 
+    /**
+     * Tests that the PinkGhost's chase target is calculated correctly
+     * based on Pac-Man's position and direction.
+     */
     @Test
     void testPinkGhostChaseTarget() {
         PinkGhost pink = new PinkGhost(5, 5);
@@ -18,6 +21,9 @@ class GameTest {
         assertEquals(new Point(12, 10), target);
     }
 
+    /**
+     * Tests that Pac-Man's lives decrease by one when a ghost collision occurs.
+     */
     @Test
     void testLivesDecreaseOnGhostCollision() {
         Frame frame = null;
@@ -31,9 +37,9 @@ class GameTest {
         assertEquals(initialLives - 1, frame.getLives());
     }
 
-
-
-
+    /**
+     * Tests that Pac-Man's direction is reset to 0 after being caught.
+     */
     @Test
     void testPacManDirectionResetAfterCaught() {
         PacMan pacMan = new PacMan();
@@ -42,7 +48,10 @@ class GameTest {
         assertEquals(0, pacMan.getDirection());
     }
 
-
+    /**
+     * Tests that all ghosts' frightened state is reset after calling resetAll on GhostManager.
+     * @throws IOException if Frame initialization fails
+     */
     @Test
     void testGhostsFrightenedStateResetOnResetAll() throws IOException {
         Frame frame = new Frame();
@@ -56,8 +65,10 @@ class GameTest {
         }
     }
 
-
-
+    /**
+     * Tests that Pac-Man's lives do not go below zero, even after multiple updates.
+     * @throws IOException if Frame initialization fails
+     */
     @Test
     void testLivesDoNotGoBelowZero() throws IOException {
         Frame frame = new Frame();
@@ -67,10 +78,5 @@ class GameTest {
         frame.updateLives(-1); // try to go below zero
         Assertions.assertEquals(0, frame.getLives());
     }
-
-
-
-
-
 
 }
