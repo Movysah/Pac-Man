@@ -8,10 +8,10 @@ public class MapLoad {
 
 
     public MapLoad() {
-    filetext = getfiletext();
+        filetext = getfiletext();
     }
 
-    ArrayList<String> filetext=new ArrayList<>();
+    ArrayList<String> filetext = new ArrayList<>();
 
 
     /**
@@ -21,7 +21,7 @@ public class MapLoad {
     public ArrayList<String> getfiletext() {
         ArrayList<String> ret = new ArrayList<>();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("MapFile"));
+            BufferedReader reader = new BufferedReader(new FileReader("MapFile.txt"));
             String text;
             while ((text = reader.readLine()) != null) {
                 ret.add(text);
@@ -34,29 +34,34 @@ public class MapLoad {
     }
 
     /**
-     *loads the map from the text file and returns the state of the tile at the given coordinates.
+     * loads the map from the text file and returns the state of the tile at the given coordinates.
      */
 
-    public TileState steteOfTile (int x, int y) {
+    public TileState steteOfTile(int x, int y) {
+        int data = 2;
+        try {
+             data = filetext.get(y).charAt(x);
+        }catch(IndexOutOfBoundsException e){
+            System.out.println(e.toString());
+
+                return TileState.Empty; // Return Empty if coordinates are out of bounds
+            }
+
+            switch (data) {
+                case '0':
+                    return TileState.DOT;
+                case '1':
+                    return TileState.WALL;
+                case '2':
+                    return TileState.Empty;
+                case '3':
+                    return TileState.POWER_UP;
+            }
+
+            return TileState.Empty;
 
 
-       int data = filetext.get(y).charAt(x);
-
-
-        switch (data) {
-            case '0' : return TileState.DOT;
-            case '1' : return TileState.WALL;
-            case '2' : return TileState.Empty;
-            case '3' : return TileState.POWER_UP;
         }
-        return TileState.Empty;
-
-
-
-
 
 
     }
-
-
-}

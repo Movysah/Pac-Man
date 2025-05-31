@@ -47,6 +47,15 @@ public class Frame implements KeyListener {
             tiles[x][y].updateToState();
             mapPanel.add(panel);
         }
+//        for (int i = 0; i < GameConstants.COLS; i++) {
+//            for (int j = 0; j < GameConstants.ROWS; j++) {
+//                JPanel panel = new JPanel();
+//                tiles[i][j] = new Tile(panel);
+//                tiles[i][j].setTileState(mapLoad.steteOfTile(i, j));
+//                tiles[i][j].updateToState();
+//                mapPanel.add(panel);
+//            }
+//        }
 
         pacManPanel = new JPanel();
         pacManPanel.setLayout(null);
